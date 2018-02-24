@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Web3 from 'web3';
 import { actionValidator, accountValidator, selectedGhostValidator } from 'redux/validators';
 import GhostCard from 'globals/components/ghost-card';
+import ItemWallet from 'ghost/components/item-wallet';
 import config from 'config.json';
 import CryptoGhosts from 'json/CryptoGhosts.json';
 import { contractAddress } from 'json/contract-address.json';
@@ -39,7 +40,7 @@ export default class Ghost extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedGhost !== this.props.selectedGhost) {
+    if ((nextProps.selectedGhost !== this.props.selectedGhost) && (nextProps.selectedGhost !== '')) {
       this.getItems(nextProps.selectedGhost);
     }
   }
@@ -92,7 +93,7 @@ export default class Ghost extends Component {
 
   render() {
     const { items, itemLabels, itemLut, name, bodyType } = this.state;
-    const { selectedGhost } = this.props;
+    const { selectedGhost, account } = this.props;
     if (selectedGhost === '') {
       return <Redirect to='/' />;
     }
@@ -105,9 +106,9 @@ export default class Ghost extends Component {
             </div>
             <div className="col-6">
               <ul className="list-group dark-text">
-                  <li className="list-group-item">
-                    {`Name: ${name}`}
-                  </li>)}
+                <li className="list-group-item">
+                  {`Name: ${name}`}
+                </li>)}
                 {items.map((item, i) =>
                   <li key={`${i}-item`} className="list-group-item">
                     {`${itemLabels[i]}: ${itemLut[item]}`}
@@ -115,10 +116,13 @@ export default class Ghost extends Component {
                 </ul>
               </div>
             </div>
+            <div className="row item-wallet-table">
+              <div className="col-12 text-center">
+                <ItemWallet account={account} />
+              </div>
+            </div>
           </div>
         </div>
-    );
-  }
+);
 }
-
-
+}

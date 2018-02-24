@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Web3 from 'web3';
 import { actionValidator, accountValidator } from 'redux/validators';
 import GhostCard from 'globals/components/ghost-card';
+import ItemWallet from 'ghost/components/item-wallet';
 import config from 'config.json';
 import CryptoGhosts from 'json/CryptoGhosts.json';
-// import { addresses } from 'json/keys.json';
 import { contractAddress } from 'json/contract-address.json';
 import 'main/styles/app.css';
 
@@ -36,7 +36,7 @@ export default class App extends Component {
   }
 
   getGhosts = (account) => {
-    this.contract.methods.getGhosts().call({ from: account })
+    this.contract.methods.ghostsOf(account).call({ from: account })
       .then(ghosts => {
         this.setState({ requested: true, ghostIds: ghosts[0], bodyTypes: ghosts[1] });
       });
@@ -44,6 +44,7 @@ export default class App extends Component {
 
   render() {
     const { ghostIds, bodyTypes, requested } = this.state;
+    const { account } = this.props;
 
     let view = null;
     if (requested) {
@@ -69,6 +70,11 @@ export default class App extends Component {
           <div id="ghosts" className="row justify-content-center">
             {view}
           </div>
+            <div className="row item-wallet-table">
+              <div className="col-12 text-center">
+                <ItemWallet account={account} />
+              </div>
+            </div>
         </div>
       </div>
     );

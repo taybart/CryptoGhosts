@@ -6,6 +6,7 @@
   "keywords": [],
   "author": "",
   "description": "",
+  "main": "truffle-config.js",
   "dependencies": {
     "ganache-cli": "^6.0.3",
     "truffle": "^4.0.6",
@@ -19,8 +20,9 @@
   },
   "scripts": {
     "test": "mocha",
-    "testnet": "clear && ganache-cli -m spiga -a 5 --acctKeys ./keys.json && cp -rf keys.json ../eth-denver-mobile/",
-    "build": "clear && rm -rf build/ && rm -rf ../eth-denver-mobile/build truffle compile && truffle migrate && cp -rf build ../eth-denver-mobile",
+    "testnet": "clear && ganache-cli -m Ghosts -a 5 --acctKeys ./keys.json",
+    "build": "clear && rm -rf build/ && truffle compile && truffle migrate && cp ./build/contracts/CryptoGhosts.json ../ui/src/json/ && node getContractAddress.js",
+    "setup": "node index.js",
     "dev": "clear && ./node_modules/.bin/nodemon index.test.js",
     "deploy": "node index.js"
   }

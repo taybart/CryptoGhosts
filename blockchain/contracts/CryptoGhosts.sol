@@ -1,39 +1,50 @@
 pragma solidity ^0.4.19;
 import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import './GhostMeta.sol';
 
-contract CryptoGhosts is ERC721Token, TokenMeta {
+contract CryptoGhosts is ERC721Token, Ownable, GhostMeta {
 
   string constant private tokenName = "CryptoGhosts";
   string constant private tokenSymbol = "SPOOK";
-  uint256 private tokenId = 1;
+  uint256 private ghostId = 1;
+  uint256 private itemId = 1;
 
-  // Only allow custodychain issuer
-  modifier onlyIssuerOf(uint256 _tokenId) {
-    require(tokenMeta[_tokenId].issuer == msg.sender);
-      _;
-  }
-
-  function transferItem(address _to, uint256 _tokenId) public onlyOwnerOf(_tokenId) {
-
-  }
-
-  function transfer(address _to, uint256 _tokenId) public onlyOwnerOf(_tokenId) {
-    // Check if _to is approved
-    require(wList[_to]);
-    // Make sure state is correct
-    require(!tokenMeta[_tokenId].finished && tokenMeta[_tokenId].approved > 0);
-    // Add transfer location to metadata
-    transferLocations[_tokenId].push(Location({lat: _lat, long: _long}));
-    // Add transfer time to metadata
-    transferTimes[_tokenId].push(now);ќu
-    // Transfer token
-    super.transfer(_to, _tokenId);
-    // Check if reciever is the original issuer
-    if (tokenMeta[_tokenId].issuer == _to) {
-      // Finish chain of custody
-      endCustody(_tokenId);
+  function CreateGhosts(uint256 amount, uint256 ghostType) public onlyOwner {
+    for(uint i = 0; i < amount; i++) {
+      _mint(msg.sender, ghostId);
+      ghostNames[ghostId] = '';
+      bodyType[ghostId] = ghostType;
+      items[ghostId] = Items(0, 0, 0, 0, 0);
+      ghostId++;
     }
+  }
+
+  function CreateGhosts(address account, uint256 amount, uint256 ghostType) public onlyOwner {
+    for(uint i = 0; i < amount; i++) {
+      _mint(account, ghostId);
+      ghostNames[ghostId] = '';
+      bodyType[ghostId] = ghostType;
+      items[ghostId] = Items(0, 0, 0, 0, 0);
+      ghostId++;
+    }
+  }
+
+  function CreateItems(uint256 amount, uint256 itemType) public onlyOwner {
+    for(uint i = 0; i < amount; i++) {
+      _mint(msg.sender, itemId);
+      bodyType[itemId] = itemType;
+      itemId++;
+    }
+  }
+
+  function getGhosts() public view returns (uint256[], uint[]) {
+    uint256[] memory tokens = tokensOf(msg.sender);
+    uint[] memory bodyTypes = new uint[](tokens.length);
+    for (uint i = 0; i < tokens.length; i++) {
+      bodyTypes[i] = getBodyType(tokens[i]);
+    }
+    return (tokens, bodyTypes);
   }
 
   function name() pure public returns (string) {

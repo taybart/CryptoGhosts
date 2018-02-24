@@ -1,6 +1,7 @@
 pragma solidity ^0.4.19;
+import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
 
-contract GhostMeta {
+contract GhostMeta is ERC721Token {
   struct Items {
     uint head;
     uint chest;
@@ -10,28 +11,39 @@ contract GhostMeta {
   }
 
   mapping (uint256 => Items) internal items;
+  mapping (uint256 => string) internal ghostNames;
   mapping (uint256 => uint) internal bodyType;
 
-  /* function getIssuer(uint256 _tokenId) public view returns (address) {
-    return tokenMeta[_tokenId].issuer;
+  /* function getIssuer(uint256 _ghostId) public view returns (address) {
+    return tokenMeta[_ghostId].issuer;
   } */
-  function getIssuer(uint256 _tokenId) public view returns (uint) {
-    return bodyType[_tokenId];
+  function NameGhost(uint256 _ghostId, string name) public onlyOwnerOf(_ghostId) {
+    ghostNames[_ghostId] = name;
   }
-  function getHeadItem(uint256 _tokenId) public view returns (uint) {
-    return items[_tokenId].head;
+  function getGhostName(uint256 _ghostId) public view returns (string) {
+    return ghostNames[_ghostId];
   }
-  function getChestItem(uint256 _tokenId) public view returns (uint) {
-    return items[_tokenId].chest;
+  function getBodyType(uint256 _ghostId) public view returns (uint) {
+    return bodyType[_ghostId];
   }
-  function getFaceItem(uint256 _tokenId) public view returns (uint) {
-    return items[_tokenId].face;
+  function getEquippedItems(uint256 _ghostId) public view returns (uint, uint, uint, uint, uint) {
+    return (items[_ghostId].head, items[_ghostId].chest, items[_ghostId].face,
+            items[_ghostId].leftHand, items[_ghostId].rightHand);
   }
-  function getLeftHandItem(uint256 _tokenId) public view returns (uint) {
-    return items[_tokenId].leftHand;
+  function getHeadItem(uint256 _ghostId) public view returns (uint) {
+    return items[_ghostId].head;
   }
-  function getRightHandItem(uint256 _tokenId) public view returns (uint) {
-    return items[_tokenId].rightHand;
+  function getChestItem(uint256 _ghostId) public view returns (uint) {
+    return items[_ghostId].chest;
+  }
+  function getFaceItem(uint256 _ghostId) public view returns (uint) {
+    return items[_ghostId].face;
+  }
+  function getLeftHandItem(uint256 _ghostId) public view returns (uint) {
+    return items[_ghostId].leftHand;
+  }
+  function getRightHandItem(uint256 _ghostId) public view returns (uint) {
+    return items[_ghostId].rightHand;
   }
 }
 

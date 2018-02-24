@@ -1,11 +1,12 @@
 const Web3 = require('web3');
 const contract = require('truffle-contract');
-const CustodyChain = require('./build/contracts/CryptoGhosts.json');
+const fs = require('fs');
+const CryptoGhosts = require('./build/contracts/CryptoGhosts.json');
 const keys = require('./keys.json');
 
 const provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
 
-const token = contract(CustodyChain);
+const token = contract(CryptoGhosts);
 token.setProvider(provider);
 
 token.currentProvider.sendAsync = function () {
@@ -13,25 +14,23 @@ token.currentProvider.sendAsync = function () {
 };
 
 const accounts = Object.keys(keys.addresses);
-let thisToken = null;
+let deployedContract = null;
 let tId;
 
 token.deployed()
   .then(instance => {
-    thisToken = instance;
-
-    /** Set up whitelist
-     * There are five total accounts created/used
-     *
-     * Regarding the UI demo...
-     * accounts[0] is issuer, accounts[1] is trustee, accounts[2/3] are custodians,
-     * accounts[4] is bad actor
-     */
-    const whiteListed = accounts.slice(0, 4);
-    console.log(whiteListed);
-    return instance.setWhiteList(whiteListed, { from: accounts[0], gas: 1000000 });
+    deployedContract = instance;
+    return deployedContract.tokensOf(accounts[0], { from: accounts[0], gas: 1000000 });
   })
-  .then(() => thisToken.getWhiteList({ from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[0], 1, 0, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.NameGhost(1, "Franky", { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[0], 1, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[1], 1, 2, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[2], 1, 0, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[2], 1, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[2], 1, 2, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[3], 2, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => console.log('Finished setting up contract'))
   .catch(err => {
     console.log(err);
   });

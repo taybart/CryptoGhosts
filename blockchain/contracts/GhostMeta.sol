@@ -10,40 +10,43 @@ contract GhostMeta is ERC721Token {
     uint rightHand;
   }
 
-  mapping (uint256 => Items) internal items;
+  mapping (uint256 => Items) internal equippedItems;
   mapping (uint256 => string) internal ghostNames;
   mapping (uint256 => uint) internal bodyType;
 
-  /* function getIssuer(uint256 _ghostId) public view returns (address) {
-    return tokenMeta[_ghostId].issuer;
-  } */
-  function NameGhost(uint256 _ghostId, string name) public onlyOwnerOf(_ghostId) {
-    ghostNames[_ghostId] = name;
+ /* SETTERS */
+  function NameGhost(uint256 _ghostId, string _name) public onlyOwnerOf(_ghostId) {
+    ghostNames[_ghostId] = _name;
   }
+  function EquipHeadItem(uint256 _ghostId, uint _item) public onlyOwnerOf(_ghostId) {
+    equippedItems[_ghostId].head = _item;
+  }
+
+  /* GETTERS */
   function getGhostName(uint256 _ghostId) public view returns (string) {
     return ghostNames[_ghostId];
   }
   function getBodyType(uint256 _ghostId) public view returns (uint) {
     return bodyType[_ghostId];
   }
-  function getEquippedItems(uint256 _ghostId) public view returns (uint, uint, uint, uint, uint) {
-    return (items[_ghostId].head, items[_ghostId].chest, items[_ghostId].face,
-            items[_ghostId].leftHand, items[_ghostId].rightHand);
-  }
   function getHeadItem(uint256 _ghostId) public view returns (uint) {
-    return items[_ghostId].head;
+    return equippedItems[_ghostId].head;
   }
   function getChestItem(uint256 _ghostId) public view returns (uint) {
-    return items[_ghostId].chest;
+    return equippedItems[_ghostId].chest;
   }
   function getFaceItem(uint256 _ghostId) public view returns (uint) {
-    return items[_ghostId].face;
+    return equippedItems[_ghostId].face;
   }
   function getLeftHandItem(uint256 _ghostId) public view returns (uint) {
-    return items[_ghostId].leftHand;
+    return equippedItems[_ghostId].leftHand;
   }
   function getRightHandItem(uint256 _ghostId) public view returns (uint) {
-    return items[_ghostId].rightHand;
+    return equippedItems[_ghostId].rightHand;
+  }
+  function getEquippedItems(uint256 _ghostId) public view returns (uint, uint, uint, uint, uint) {
+    return (equippedItems[_ghostId].head, equippedItems[_ghostId].chest, equippedItems[_ghostId].face,
+            equippedItems[_ghostId].leftHand, equippedItems[_ghostId].rightHand);
   }
 }
 

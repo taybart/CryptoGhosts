@@ -1,8 +1,10 @@
 pragma solidity ^0.4.19;
-import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 
-contract ItemWallet is ERC721Token, Ownable {
+contract ItemWallet is Ownable {
+  using SafeMath for uint256;
+
   uint256 private itemId = 0;
   uint256 private totalItems;
   mapping (uint256 => address) private itemOwner;
@@ -13,13 +15,17 @@ contract ItemWallet is ERC721Token, Ownable {
   function CreateItems(address _to, uint256 _itemType, uint256 _amount) onlyOwner public {
     for(uint i = 0; i < _amount; i++) {
       itemId++;
-      uint256 length = balanceOf(_to);
+      uint256 length = itemAmountOf(_to);
       ownedItemIndex[itemId] = length;
       itemTypes[itemId] = _itemType;
       itemOwner[itemId] = _to;
       ownedItems[_to].push(itemId);
       totalItems = totalItems.add(1);
     }
+  }
+
+  function itemAmountOf(address _owner) public view returns (uint256) {
+    return ownedItems[_owner].length;
   }
 
   function getItemType(uint256 _itemId) public view returns(uint) {

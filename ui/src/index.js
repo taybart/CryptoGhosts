@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import routes from 'router.jsx';
 import base from 'redux/reducer.jsx';
 import registerServiceWorker from 'registerServiceWorker';
-import 'global.css';
+import 'globals/global.css';
 
 /* eslint-disable no-underscore-dangle */
 const store = createStore(base,

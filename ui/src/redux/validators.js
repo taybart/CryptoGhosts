@@ -1,4 +1,7 @@
 import PropTypes from 'prop-types';
 
-export const thingValidator = PropTypes.String;
+export const actionValidator = PropTypes.func;
+
+export const accountValidator = PropTypes.string;
+export const selectedGhostValidator = PropTypes.string;
 

@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { setAccount, setGhost } from 'redux/actions';
-import App from 'main/view';
+import Ghost from 'ghost/view';
 
 const mapStateToProps = state => ({
   account: state.account,
+  selectedGhost: state.selectedGhost,
 });
 const mapDispatchToProps = dispatch => ({
   setAccount: (account) => {
@@ -15,5 +16,5 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const AppCon = withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
-export default AppCon;
+const GhostCon = withRouter(connect(mapStateToProps, mapDispatchToProps)(Ghost));
+export default GhostCon;

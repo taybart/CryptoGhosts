@@ -8,6 +8,8 @@ function makeActionCreator(type, ...argNames) {
   };
 }
 
-export const SET_THING = 'SET_THING';
+export const SET_ACCOUNT = 'SET_ACCOUNT';
+export const SET_GHOST = 'SET_GHOST';
 
-export const setThing = makeActionCreator(SET_THING, 'thing');
+export const setAccount = makeActionCreator(SET_ACCOUNT, 'account');
+export const setGhost = makeActionCreator(SET_GHOST, 'selectedGhost');

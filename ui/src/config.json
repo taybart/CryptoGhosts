@@ -1,0 +1,4 @@
+{
+  "apiRoot": "http://localhost:3001",
+  "blockchainRoot": "http://127.0.0.1:8545"
+}

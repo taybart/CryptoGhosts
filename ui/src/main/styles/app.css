@@ -1,2 +1,6 @@
 .app {
-  text-align: center; }
+  text-align: center;
+  padding-top: 25px; }
+
+#ghosts {
+  padding-top: 100px; }

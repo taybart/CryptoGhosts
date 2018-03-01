@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { setAccount, setGhost } from 'redux/actions';
 import App from 'main/view';
 
@@ -15,5 +14,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const AppCon = withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
-export default AppCon;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

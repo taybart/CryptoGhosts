@@ -1,14 +1,32 @@
+$dark-color:  rgba(34, 30, 46, 1);
+$bootstrap-secondary-color: rgba(108, 117, 125, 1);
+$ghost-purple: rgb(62, 46, 66);
 body {
-  // background-color: rgba(34, 30, 46, 0.93);
-  background-color: rgba(34, 30, 46, 1);
+  background-color: $dark-color;
   color: white;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
 }
 
+
+.back-button {
+  padding-top: 25px;
+  padding-left: 25px;
+  a {
+    padding: 15px;
+  }
+}
+
+.account-dropdown {
+  background-color: $bootstrap-secondary-color;
+  button {
+    color: white;
+  }
+}
+
 .light-text {
-  color: black;
+  color: white;
 }
 
 .dark-text {
@@ -17,4 +35,35 @@ body {
 
 .clickable {
   cursor: pointer;
+}
+
+.padded-row {
+  padding-top: 50px;
+}
+
+.table-less-dark {
+  background-color: $ghost-purple !important;
+  opacity: 0.9;
+}
+.table-dark {
+  background-color: $ghost-purple !important;
+}
+.highlights {
+  box-shadow: 10px 10px 20px rgba(255,255,255,0.19), 0 6px 6px rgba(255,255,255,0.23);
+}
+.ghost-card {
+  background-color: $ghost-purple !important;
+  box-shadow: 10px 10px 20px rgba(255,255,255,0.19), 0 6px 6px rgba(255,255,255,0.23);
+}
+
+.modal-dark {
+  & .modal-content {
+    background-color: $ghost-purple;
+    border: 3px white solid;
+    & input {
+      color: white;
+      background-color: $ghost-purple;
+    }
+  }
+
 }

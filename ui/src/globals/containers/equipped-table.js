@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { setAccount, setGhost, setEquippedItems } from 'redux/actions';
-import Ghost from 'ghost/view';
+import EquippedTable from 'globals/components/equipped-table';
 
 const mapStateToProps = state => ({
   account: state.account,
@@ -21,4 +20,5 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Ghost));
+export default connect(mapStateToProps, mapDispatchToProps)(EquippedTable);
+

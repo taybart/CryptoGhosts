@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Web3 from 'web3';
 import { actionValidator, accountValidator, selectedGhostValidator } from 'redux/validators';
-import GhostCard from 'globals/components/ghost-card';
-import ItemWallet from 'ghost/components/item-wallet';
+import GhostCard from 'globals/containers/ghost-card';
+import ItemWallet from 'globals/containers/item-wallet';
 import config from 'config.json';
 import CryptoGhosts from 'json/CryptoGhosts.json';
 import { contractAddress } from 'json/contract-address.json';
@@ -19,7 +19,6 @@ export default class Ghost extends Component {
     super(props);
     this.state = {
       items: [],
-      itemLabels: ['Head', 'Chest', 'Face', 'Left Hand', 'Right Hand'],
       name: '',
       bodyType: 0,
     };
@@ -32,37 +31,24 @@ export default class Ghost extends Component {
 
     const { selectedGhost } = this.props;
     if (selectedGhost !== '') {
-      this.getItemLUT()
-        .then(this.getName(selectedGhost))
-        .then(this.getBodyType(selectedGhost))
-        .then(this.getItems(selectedGhost));
+      this.getEquippedItems(selectedGhost)
+        .then(this.getName(selectedGhost));
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if ((nextProps.selectedGhost !== this.props.selectedGhost) && (nextProps.selectedGhost !== '')) {
-      this.getItems(nextProps.selectedGhost);
+      this.getEquippedItems(nextProps.selectedGhost);
     }
   }
 
-  getItemLUT = () => {
-    return new Promise(resolve => {
-      fetch(`${config.apiRoot}/item-lut`).then(res => res.json())
-        .then(json => {
-          if (json.status === 'OK') {
-            this.setState({ itemLut: json.data });
-            resolve();
-          }
-        });
-    });
-  }
-
   getName = (ghostId) => {
+    const { selectedGhost } = this.props;
     return new Promise(resolve => {
-      this.contract.methods.getGhostName(ghostId).call()
-        .then(n => {
-          let name = n;
-          if (n === '') {
+      fetch(`${config.apiRoot}/ghost/name?ghostId=${selectedGhost}`).then(res => res.json())
+        .then(json => {
+          let name = json.name;
+          if (json.name === '') {
             name = 'Unknown';
           }
           this.setState({ name });
@@ -71,58 +57,39 @@ export default class Ghost extends Component {
     });
   }
 
-  getBodyType = (ghostId) => {
+  getEquippedItems = (ghostId) => {
     return new Promise(resolve => {
-      this.contract.methods.getBodyType(ghostId).call()
-        .then(bodyType => {
-          this.setState({ bodyType });
-          resolve();
-        });
-    });
-  }
-
-  getItems = (ghostId) => {
-    return new Promise(resolve => {
-      this.contract.methods.getEquippedItems(ghostId).call()
-        .then(items => {
-          this.setState({ items: Object.keys(items).map(i => items[i]) });
+      fetch(`${config.apiRoot}/item/equipped?ghostId=${ghostId}`).then(res => res.json())
+        .then(json => {
+          this.props.setEquippedItems(json.data.items)
           resolve();
         });
     });
   }
 
   render() {
-    const { items, itemLabels, itemLut, name, bodyType } = this.state;
     const { selectedGhost, account } = this.props;
-    if (selectedGhost === '') {
-      return <Redirect to='/' />;
-    }
+
+    if (selectedGhost === '') { return <Redirect to='/' />; }
+
     return (
       <div>
+        <div className="back-button">
+          <Link to="/" className="badge badge-secondary">
+            {`< Back`}
+          </Link>
+        </div>
         <div className="container ghost">
           <div className="row">
             <div className="col-6 text-center">
-              <GhostCard ghostId={selectedGhost} bt={bodyType} />
+              <GhostCard ghostId={selectedGhost} />
             </div>
-            <div className="col-6">
-              <ul className="list-group dark-text">
-                <li className="list-group-item">
-                  {`Name: ${name}`}
-                </li>)}
-                {items.map((item, i) =>
-                  <li key={`${i}-item`} className="list-group-item">
-                    {`${itemLabels[i]}: ${itemLut[item]}`}
-                  </li>)}
-                </ul>
-              </div>
-            </div>
-            <div className="row item-wallet-table">
-              <div className="col-12 text-center">
-                <ItemWallet account={account} />
-              </div>
+            <div className="col-6 text-center">
+              <ItemWallet account={account} />
             </div>
           </div>
         </div>
-);
-}
+      </div>
+    );
+  }
 }

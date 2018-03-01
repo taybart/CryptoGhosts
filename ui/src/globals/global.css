@@ -5,11 +5,46 @@ body {
   padding: 0;
   font-family: sans-serif; }
 
+.back-button {
+  padding-top: 25px;
+  padding-left: 25px; }
+  .back-button a {
+    padding: 15px; }
+
+.account-dropdown {
+  background-color: #6c757d; }
+  .account-dropdown button {
+    color: white; }
+
 .light-text {
-  color: black; }
+  color: white; }
 
 .dark-text {
   color: black; }
 
 .clickable {
   cursor: pointer; }
+
+.padded-row {
+  padding-top: 50px; }
+
+.table-less-dark {
+  background-color: #3e2e42 !important;
+  opacity: 0.9; }
+
+.table-dark {
+  background-color: #3e2e42 !important; }
+
+.highlights {
+  box-shadow: 10px 10px 20px rgba(255, 255, 255, 0.19), 0 6px 6px rgba(255, 255, 255, 0.23); }
+
+.ghost-card {
+  background-color: #3e2e42 !important;
+  box-shadow: 10px 10px 20px rgba(255, 255, 255, 0.19), 0 6px 6px rgba(255, 255, 255, 0.23); }
+
+.modal-dark .modal-content {
+  background-color: #3e2e42;
+  border: 3px white solid; }
+  .modal-dark .modal-content input {
+    color: white;
+    background-color: #3e2e42; }

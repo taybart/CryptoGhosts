@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { setAccount, setGhost, setEquippedItems } from 'redux/actions';
-import Ghost from 'ghost/view';
+import Battle from 'battle/view';
 
 const mapStateToProps = state => ({
   account: state.account,
@@ -21,4 +21,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Ghost));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Battle));

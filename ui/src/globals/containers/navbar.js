@@ -12,6 +12,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const NavCon = withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));
-export default NavCon;
-
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));

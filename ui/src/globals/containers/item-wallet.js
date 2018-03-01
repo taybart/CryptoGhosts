@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { setAccount, setGhost, setEquippedItems } from 'redux/actions';
-import Ghost from 'ghost/view';
+import { setAccount, setItemLut, setEquippedItems } from 'redux/actions';
+import ItemWallet from 'globals/components/item-wallet';
 
 const mapStateToProps = state => ({
   account: state.account,
@@ -13,12 +12,13 @@ const mapDispatchToProps = dispatch => ({
   setAccount: (account) => {
     dispatch(setAccount(account));
   },
-  setGhost: (selectedGhost) => {
-    dispatch(setGhost(selectedGhost));
+  setItemLut: (itemLut) => {
+    dispatch(setItemLut(itemLut));
   },
   setEquippedItems: (equippedItems) => {
     dispatch(setEquippedItems(equippedItems));
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Ghost));
+export default connect(mapStateToProps, mapDispatchToProps)(ItemWallet);
+

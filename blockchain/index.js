@@ -20,25 +20,21 @@ let tId;
 token.deployed()
   .then(instance => {
     deployedContract = instance;
-    return deployedContract.tokensOf(accounts[0], { from: accounts[0], gas: 1000000 });
   })
-  .then(() => deployedContract.CreateGhost(accounts[0], 0, 'Franky', { from: accounts[0], gas: 1000000 }))
-  .then(() => deployedContract.CreateGhost(accounts[0], 1, 'Bob', { from: accounts[0], gas: 1000000 }))
-  .then(() => deployedContract.CreateGhost(accounts[1], 2, 'Boo', { from: accounts[0], gas: 1000000 }))
-  .then(() => deployedContract.EquipHeadItem(3, 1, { from: accounts[1], gas: 1000000 }))
-  .then(() => deployedContract.CreateGhost(accounts[2], 0, '', { from: accounts[0], gas: 1000000 }))
-  .then(() => deployedContract.CreateGhost(accounts[2], 1, '', { from: accounts[0], gas: 1000000 }))
-  .then(() => deployedContract.CreateGhost(accounts[2], 2, '', { from: accounts[0], gas: 1000000 }))
-  .then(() => deployedContract.CreateGhost(accounts[3], 1, '', { from: accounts[0], gas: 1000000 }))
-  .then(() => deployedContract.CreateGhost(accounts[3], 1, '', { from: accounts[0], gas: 1000000 }))
-  .then(() => deployedContract.CreateItems(accounts[0], 25000, 1, { from: accounts[0], gas: 1000000 }))
-  .then(() => deployedContract.CreateItems(accounts[0], 25001, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[0], 0, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[0], 0, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[0], 1, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[1], 2, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[2], 0, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[2], 1, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[2], 2, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[3], 1, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateGhosts(accounts[3], 1, 1, { from: accounts[0], gas: 1000000 }))
   .then(() => deployedContract.CreateItems(accounts[0], 1, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateItems(accounts[0], 50000, 1, { from: accounts[0], gas: 1000000 }))
+  .then(() => deployedContract.CreateItems(accounts[0], 25001, 1, { from: accounts[0], gas: 1000000 }))
   .then(() => deployedContract.CreateItems(accounts[1], 1, 1, { from: accounts[0], gas: 1000000 }))
-  /* .then(() => deployedContract.ghostsOf(accounts[0], { from: accounts[0], gas: 1000000 }))
-  .then((res) => console.log(res))
-  .then(() => deployedContract.itemsOf(accounts[0], { from: accounts[0], gas: 1000000 }))
-  .then((res) => console.log(res)) */
+  // .then((res) => console.log(res))
   .then(() => console.log('Finished setting up contract'))
   .catch(err => {
     console.log(err);

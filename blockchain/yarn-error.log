@@ -1,0 +1,66 @@
+Arguments: 
+  /usr/local/Cellar/node/9.5.0/bin/node /Users/taylor/.yarn/bin/yarn.js build
+
+PATH: 
+  /Users/taylor/.yarn/bin:/Users/taylor/.config/yarn/global/node_modules/.bin:/Users/taylor/dev/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/Users/taylor/.bin:/Users/taylor/.cargo/bin:/Users/taylor/.fzf/bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  9.5.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "CryptoGhosts",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "keywords": [],
+    "author": "",
+    "description": "",
+    "main": "truffle-config.js",
+    "dependencies": {
+      "ganache-cli": "^6.0.3",
+      "truffle": "^4.0.6",
+      "truffle-contract": "^3.0.3",
+      "web3": "^1.0.0-beta.30",
+      "zeppelin-solidity": "1.6.0"
+    },
+    "devDependencies": {
+      "mocha": "^3.5.3",
+      "nodemon": "^1.15.0"
+    },
+    "scripts": {
+      "test": "mocha",
+      "testnet": "clear && ganache-cli -m Ghosts -a 5 --acctKeys ./keys.json",
+      "build": "clear && rm -rf build/ && truffle compile && truffle migrate && cp ./build/contracts/CryptoGhosts.json ../ui/src/json/ && node getContractAddress.js",
+      "setup": "node index.js",
+      "dev": "clear && ./node_modules/.bin/nodemon index.test.js",
+      "deploy": "node index.js"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Command failed.
+  Exit code: 1
+  Command: sh
+  Arguments: -c clear && rm -rf build/ && truffle compile && truffle migrate && cp ./build/contracts/CryptoGhosts.json ../ui/src/json/ && node getContractAddress.js
+  Directory: /Users/taylor/dev/cryptoghosts/blockchain
+  Output:
+  
+      at ProcessTermError.MessageError (/Users/taylor/.yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/Users/taylor/.yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/Users/taylor/.yarn/lib/cli.js:30281:17)
+      at ChildProcess.emit (events.js:160:13)
+      at maybeClose (internal/child_process.js:943:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:220:5)

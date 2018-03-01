@@ -10,27 +10,26 @@ export default class Navbar extends Component {
         CryptoGhosts!
       </Link>
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <div className="dropdown">
-              <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {account}
-              </button>
-              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                {Object.keys(addresses).filter(a => a !== account).map(a => {
-                    return (<button
-                      key={`${a}`}
-                      className={`dropdown-item`}
-                      data-address={a}
-                      onClick={(e) => this.props.setAccount(e.target.dataset.address)}
-                    >
-                      {a}
-                    </button>
-                    );
-                })}
-              </div>
+        <ul className="navbar-nav  ml-auto">
+          <div className="dropdown">
+            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Address {Object.keys(addresses).indexOf(account) + 1}
+            </button>
+
+            <div className="dropdown-menu dropdown-menu-right account-dropdown" aria-labelledby="dropdownMenuButton">
+              {Object.keys(addresses).filter(a => a !== account).map((a, i) => {
+                return (<button
+                  key={`${a}`}
+                  className="dropdown-item"
+                  data-address={a}
+                  onClick={(e) => this.props.setAccount(e.target.dataset.address)}
+                >
+                  Address {Object.keys(addresses).indexOf(a) + 1}
+                </button>
+                );
+              })}
             </div>
-          </li>
+          </div>
         </ul>
       </div>
     </nav>);

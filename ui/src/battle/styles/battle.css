@@ -1,0 +1,60 @@
+.battle {
+  text-align: center;
+  color: white;
+  padding-top: 150px; }
+
+.battle-person {
+  position: absolute; }
+  .battle-person img {
+    width: 50px;
+    height: 50px; }
+
+.scared-win {
+  top: -50px;
+  animation: win-pos 2s, run-pos 2s; }
+
+.scared-loss {
+  top: -50px;
+  animation: loss-pos 2s, run-pos 2s; }
+
+@keyframes win-pos {
+  0% {
+    left: 0px; }
+  80% {
+    left: 35%; }
+  100% {
+    left: 35%; } }
+
+@keyframes run-pos {
+  0% {
+    top: 40px; }
+  80% {
+    top: 40px; }
+  100% {
+    top: -50px; } }
+
+@keyframes loss-pos {
+  0% {
+    left: 0px; }
+  80% {
+    left: 68%; }
+  100% {
+    left: 68%; } }
+
+.walk {
+  animation-name: walk-ani;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; }
+
+@keyframes walk-ani {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(-15deg); }
+  50% {
+    transform: rotate(0deg); }
+  75% {
+    transform: rotate(15deg); }
+  100% {
+    transform: rotate(0deg); } }

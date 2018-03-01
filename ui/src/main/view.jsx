@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import { actionValidator, accountValidator } from 'redux/validators';
-import GhostCard from 'globals/components/ghost-card';
-import ItemWallet from 'ghost/components/item-wallet';
+import GhostCard from 'globals/containers/ghost-card';
+import ItemWallet from 'globals/containers/item-wallet';
 import config from 'config.json';
 import CryptoGhosts from 'json/CryptoGhosts.json';
 import { contractAddress } from 'json/contract-address.json';
@@ -18,7 +18,6 @@ export default class App extends Component {
     super(props);
     this.state = {
       ghostIds: [],
-      bodyTypes: [],
       requested: false,
     };
   }
@@ -28,6 +27,7 @@ export default class App extends Component {
     const web3 = new Web3(provider);
     this.contract = new web3.eth.Contract(CryptoGhosts.abi, contractAddress);
     this.getGhosts(this.props.account);
+    this.props.setGhost('');
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.account !== this.props.account) {
@@ -38,12 +38,12 @@ export default class App extends Component {
   getGhosts = (account) => {
     this.contract.methods.ghostsOf(account).call({ from: account })
       .then(ghosts => {
-        this.setState({ requested: true, ghostIds: ghosts[0], bodyTypes: ghosts[1] });
+        this.setState({ requested: true, ghostIds: ghosts[0].map(id => +id), });
       });
   }
 
   render() {
-    const { ghostIds, bodyTypes, requested } = this.state;
+    const { ghostIds, requested } = this.state;
     const { account } = this.props;
 
     let view = null;
@@ -52,7 +52,7 @@ export default class App extends Component {
       if (ghostIds.length > 0) {
         view = ghostIds.map((t,i) =>
           <div key={t} className="col">
-            <GhostCard ghostId={t} bt={bodyTypes[i]} onClick={(e) => {
+            <GhostCard ghostId={t} onClick={(e) => {
               this.props.setGhost(e.target.dataset.ghostid);
               this.props.history.push('/ghost');
             }} />
@@ -70,15 +70,13 @@ export default class App extends Component {
           <div id="ghosts" className="row justify-content-center">
             {view}
           </div>
-            <div className="row item-wallet-table">
-              <div className="col-12 text-center">
-                <ItemWallet account={account} />
-              </div>
+          <div className="row justify-content-center padded-row">
+            <div className="col text-center">
+              <ItemWallet account={account} />
             </div>
+          </div>
         </div>
       </div>
     );
   }
 }
-
-
